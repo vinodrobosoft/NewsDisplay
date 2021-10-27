@@ -50,6 +50,7 @@ class HomeFragment : Fragment() {
             }
             it.findViewById<AppCompatImageView>(R.id.search_toolbar)?.let {
                 it.isVisible = true
+                it.isEnabled = true
             }
             it.findViewById<AppCompatEditText>(R.id.search_edit_text)?.let {
                 it.isGone = true

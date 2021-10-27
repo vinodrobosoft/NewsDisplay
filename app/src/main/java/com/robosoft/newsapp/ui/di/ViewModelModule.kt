@@ -8,6 +8,6 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel() {
-        HomeViewModel(newsApiHelper = get(named("NEWS_API_HELPER")))
+        HomeViewModel()
     }
 }

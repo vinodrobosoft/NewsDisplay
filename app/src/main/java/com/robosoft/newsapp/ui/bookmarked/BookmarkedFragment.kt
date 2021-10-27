@@ -52,6 +52,7 @@ class BookmarkedFragment : Fragment() {
             }
             it.findViewById<AppCompatImageView>(R.id.search_toolbar)?.let {
                 it.isVisible = true
+                it.isEnabled = false
                 /*it.setOnClickListener {
                     findNavController().navigate(R.id.action_BookmarkedFragment_to_SearchNewsFragment)
                 }*/
