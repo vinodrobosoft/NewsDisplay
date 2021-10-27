@@ -10,16 +10,27 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.databinding.FragmentHomeBinding
+import com.robosoft.newsapp.ui.adapter.NewsListAdapter
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A Home [Fragment] subclass as the default destination in the navigation.
  */
 class HomeFragment : Fragment() {
 
+    lateinit var newsListAdapter: NewsListAdapter
     private var _binding: FragmentHomeBinding? = null
+
+    private val mDisposable = CompositeDisposable()
+
+    val homeViewModel: HomeViewModel by viewModel()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -36,7 +47,29 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpNewsListAdapter()
+        setUpView()
+    }
 
+    fun setUpNewsListAdapter() {
+        newsListAdapter = NewsListAdapter()
+        binding.newsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            adapter = newsListAdapter
+        }
+    }
+
+    fun setUpView() {
+        
+        mDisposable.add(homeViewModel.newsList().subscribe {
+            newsListAdapter.submitData(lifecycle,it)
+        })
+        /*lifecycleScope.launch {
+            homeViewModel.newsList.collect {
+                newsListAdapter.submitData(it)
+            }
+        }*/
     }
 
     fun setUiValues() {
@@ -59,11 +92,11 @@ class HomeFragment : Fragment() {
                 it.isGone = true
             }
         }
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        mDisposable.dispose()
     }
 }
