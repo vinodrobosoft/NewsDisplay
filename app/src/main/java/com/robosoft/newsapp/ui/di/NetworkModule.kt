@@ -4,6 +4,9 @@ import android.content.Context
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.robosoft.newsapp.NewsApp
 import com.robosoft.newsapp.api.APIEndPoints
+import com.robosoft.newsapp.data.GetNewsRxRepository
+import com.robosoft.newsapp.data.GetNewsRxRepositoryImpl
+import com.robosoft.newsapp.data.datasource.NewsDataSource
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -21,8 +24,15 @@ val networkModule = module {
         getApiService(get())
     }
 
-}
+    single(named("NEWS_DATA_SOURCE")) {
+        NewsDataSource(apiEndPoints = get(named("GET_API_SERVICE")),apiKey =
+        get(named("NEWS_API_KEY")),locale = get(named("GET_LOCALE")))
+    }
 
+    single<GetNewsRxRepository> {
+        GetNewsRxRepositoryImpl(pagingSource = get(named("NEWS_DATA_SOURCE")))
+    }
+}
 
 private fun getBuilder(context: Context): Retrofit.Builder {
     return Retrofit.Builder()

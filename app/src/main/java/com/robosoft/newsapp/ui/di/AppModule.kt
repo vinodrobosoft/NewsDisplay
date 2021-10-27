@@ -27,14 +27,7 @@ val appModule = module {
         NewsApiHelper(context = get(), apiKey = provideNewsApiKey())
     }
 
-    single(named("NEWS_DATA_SOURCE")) {
-        NewsDataSource(apiEndPoints = get(named("GET_API_SERVICE")),apiKey =
-        get(named("NEWS_API_KEY")),locale = get(named("GET_LOCALE")))
-    }
 
-    single(named("NEWS_REPOSITORY")) {
-        GetNewsRxRepositoryImpl(get(named("NEWS_DATA_SOURCE")))
-    }
 }
 
 fun provideNewsApiKey() = Configuration.NEWS_API_KEY

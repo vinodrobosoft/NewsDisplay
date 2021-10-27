@@ -7,7 +7,7 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
 
-    viewModel() {
-        HomeViewModel(repository = get((named("NEWS_REPOSITORY"))))
+    viewModel(named("HOME_VIEW_MODEL")) {
+        HomeViewModel(repository = get())
     }
 }

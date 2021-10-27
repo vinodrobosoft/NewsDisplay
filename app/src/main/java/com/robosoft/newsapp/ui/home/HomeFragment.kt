@@ -18,7 +18,9 @@ import com.robosoft.newsapp.databinding.FragmentHomeBinding
 import com.robosoft.newsapp.ui.adapter.NewsListAdapter
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.get
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 /**
  * A Home [Fragment] subclass as the default destination in the navigation.
@@ -30,7 +32,10 @@ class HomeFragment : Fragment() {
 
     private val mDisposable = CompositeDisposable()
 
-    val homeViewModel: HomeViewModel by viewModel()
+    /*val homeViewModel: HomeViewModel by viewModel {
+        get(named("HOME_VIEW_MODEL")) }*/
+
+    val homeViewModel : HomeViewModel by viewModel()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -47,8 +52,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpNewsListAdapter()
-        setUpView()
+        //setUpNewsListAdapter()
+        //setUpView()
     }
 
     fun setUpNewsListAdapter() {
@@ -58,18 +63,20 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             adapter = newsListAdapter
         }
+
+
     }
 
     fun setUpView() {
-        
-        mDisposable.add(homeViewModel.newsList().subscribe {
-            newsListAdapter.submitData(lifecycle,it)
-        })
+
         /*lifecycleScope.launch {
             homeViewModel.newsList.collect {
                 newsListAdapter.submitData(it)
             }
         }*/
+        mDisposable.add(homeViewModel.newsList().subscribe {
+            newsListAdapter.submitData(lifecycle,it)
+        })
     }
 
     fun setUiValues() {
@@ -92,7 +99,10 @@ class HomeFragment : Fragment() {
                 it.isGone = true
             }
         }
+
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
