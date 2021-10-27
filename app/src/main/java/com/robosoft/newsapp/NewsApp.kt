@@ -19,6 +19,7 @@ class NewsApp : Application() {
     }
 
     private fun initialise() {
+
         startKoin {
             androidContext(this@NewsApp)
             modules(listOf(

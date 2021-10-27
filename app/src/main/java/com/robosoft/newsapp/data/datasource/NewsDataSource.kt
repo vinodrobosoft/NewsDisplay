@@ -12,19 +12,19 @@ import java.util.*
 
 class NewsDataSource(val apiEndPoints:APIEndPoints,
             private val apiKey: String,
-            private val locale: Locale) :
+            private val country: String) :
         RxPagingSource<Int,NewsResponse.NewsTop>()  {
 
 
-    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, NewsResponse.NewsTop>> {
+    override fun loadSingle(params: LoadParams<Int>):
+            Single<LoadResult<Int, NewsResponse.NewsTop>> {
             val position = params.key ?: 1
 
-            return apiEndPoints.topHeadlines(apiKey,locale.language)
+            return apiEndPoints.topHeadlines(country,apiKey)
                     .subscribeOn(Schedulers.io())
                     .map { toLoadResult(it,position) }
                     .onErrorReturn { LoadResult.Error(it) }
     }
-
 
     private fun toLoadResult(data: NewsResponse, position: Int): LoadResult<Int, NewsResponse.NewsTop> {
         return LoadResult.Page(
@@ -34,7 +34,5 @@ class NewsDataSource(val apiEndPoints:APIEndPoints,
         )
     }
 
-    override fun getRefreshKey(state: PagingState<Int, NewsResponse.NewsTop>): Int? {
-        TODO("Not yet implemented")
-    }
+    override fun getRefreshKey(state: PagingState<Int, NewsResponse.NewsTop>): Int? = 1
 }

@@ -18,8 +18,8 @@ class NewsListAdapter :
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         Log.d("vs","onBindViewHolder Title ${getItem(position)?.title}")
-        /*holder.itemView.findViewById<AppCompatTextView>(R.id.popular_news_title)
-                .setText(getItem(position)?.title)*/
+        holder.itemView.findViewById<AppCompatTextView>(R.id.popular_news_title)
+                .setText(getItem(position)?.title)
 
     }
 
@@ -33,7 +33,7 @@ class NewsListAdapter :
 
     object NewsDifferentiator : DiffUtil.ItemCallback<NewsResponse.NewsTop>() {
         override fun areItemsTheSame(oldItem: NewsResponse.NewsTop, newItem: NewsResponse.NewsTop): Boolean {
-            return oldItem.author == newItem.author
+            return oldItem.title == newItem.title
         }
 
         override fun areContentsTheSame(oldItem: NewsResponse.NewsTop, newItem: NewsResponse.NewsTop): Boolean {

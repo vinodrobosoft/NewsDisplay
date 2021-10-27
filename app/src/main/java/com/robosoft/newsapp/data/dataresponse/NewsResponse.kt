@@ -3,13 +3,23 @@ package com.robosoft.newsapp.data.dataresponse
 import androidx.core.app.NotificationCompat
 import com.google.gson.annotations.SerializedName
 
-data class NewsResponse( @SerializedName("total_pages") val total: Int = 0,
-                         val page: Int = 0,
+data class NewsResponse( @SerializedName("total_pages") val total: Int = 10,
+                         val page: Int = 5,
                          val results: List<NewsTop>){
 
     data class NewsTop(
+
+            @SerializedName("status")
+            val status: String,
+
+            @SerializedName("totalResults")
+            val totalResults: String,
+
             @SerializedName("articles")
             val articles: String,
+
+            @SerializedName("source")
+            val source: String,
 
             @SerializedName("author")
             val author: String,
@@ -23,17 +33,8 @@ data class NewsResponse( @SerializedName("total_pages") val total: Int = 0,
             @SerializedName("publishedAt")
             val publishedAt: String,
 
-            @SerializedName("source")
-            val source: String,
-
-            @SerializedName(NotificationCompat.CATEGORY_STATUS)
-            val status: String,
-
             @SerializedName("title")
             val title: String,
-
-            @SerializedName("totalResults")
-            val totalResults: String,
 
             @SerializedName("url")
             val url: String,
