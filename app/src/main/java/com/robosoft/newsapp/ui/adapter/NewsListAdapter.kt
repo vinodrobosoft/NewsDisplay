@@ -18,8 +18,8 @@ class NewsListAdapter :
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         Log.d("vs","onBindViewHolder Title ${getItem(position)?.title}")
-        holder.itemView.findViewById<AppCompatTextView>(R.id.popular_news_title)
-                .setText(getItem(position)?.title)
+        /*holder.itemView.findViewById<AppCompatTextView>(R.id.popular_news_title)
+                .setText(getItem(position)?.title)*/
 
     }
 

@@ -1,6 +1,7 @@
 package com.robosoft.newsapp.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +11,14 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.databinding.FragmentHomeBinding
 import com.robosoft.newsapp.ui.adapter.NewsListAdapter
+import com.robosoft.newsapp.ui.di.Inject
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.get
@@ -35,7 +38,8 @@ class HomeFragment : Fragment() {
     /*val homeViewModel: HomeViewModel by viewModel {
         get(named("HOME_VIEW_MODEL")) }*/
 
-    val homeViewModel : HomeViewModel by viewModel()
+    //val homeViewModel by viewModel<HomeViewModel>()
+    private lateinit var homeViewModel: HomeViewModel
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -46,14 +50,17 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val view = binding.root
+        homeViewModel = ViewModelProvider(this, Inject.provideHomeViewModel(view.context)).get(
+            HomeViewModel::class.java)
         setUiValues()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //setUpNewsListAdapter()
-        //setUpView()
+        setUpNewsListAdapter()
+        setUpView()
     }
 
     fun setUpNewsListAdapter() {
@@ -63,17 +70,10 @@ class HomeFragment : Fragment() {
             setHasFixedSize(true)
             adapter = newsListAdapter
         }
-
-
     }
 
     fun setUpView() {
 
-        /*lifecycleScope.launch {
-            homeViewModel.newsList.collect {
-                newsListAdapter.submitData(it)
-            }
-        }*/
         mDisposable.add(homeViewModel.newsList().subscribe {
             newsListAdapter.submitData(lifecycle,it)
         })
@@ -101,8 +101,6 @@ class HomeFragment : Fragment() {
         }
 
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
