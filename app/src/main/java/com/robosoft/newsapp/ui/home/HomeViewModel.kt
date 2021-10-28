@@ -20,5 +20,5 @@ class HomeViewModel(private val repository: GetNewsRxRepository) : ViewModel() {
             .cachedIn(viewModelScope)
     }
 
-
+    var topNewsList : Array<String>? = null
 }

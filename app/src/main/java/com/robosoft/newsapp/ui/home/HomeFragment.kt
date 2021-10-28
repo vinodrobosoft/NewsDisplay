@@ -65,6 +65,7 @@ class HomeFragment : Fragment() {
         setUiValues()
         setObservables()
         setUpNewsListAdapter()
+        setTopNewsUi()
 
         return binding.root
     }
@@ -72,22 +73,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-    }
-
-    fun setUpNewsListAdapter() {
-        newsListAdapter = NewsListAdapter()
-        binding.newsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = newsListAdapter
-        }
-        setUpView()
-    }
-
-    fun setUpView() {
-
-        mDisposable.add(homeViewModel.newsList().subscribe {
-            newsListAdapter.submitData(lifecycle,it)
-        })
     }
 
     fun setUiValues() {
@@ -118,28 +103,79 @@ class HomeFragment : Fragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( {
-                var success = it.second.message
-                when(success) {
-                    StatusTypes.SUCCESS.getMessage() -> {
+                    var success = it.second.message
+                    when(success) {
+                        StatusTypes.SUCCESS.getMessage() -> {
 
-                        NDLogs.debug(TAG ," SUCCESS ")
+                            NDLogs.debug(TAG ," SUCCESS ")
 
-                        NDLogs.debug(TAG ," Display Title ${it.first?.get(5)?.title} ")
+                            homeViewModel.topNewsList = arrayOf("title","content","source","image")
+                            it.first?.get(5)?.title?.let { it1 ->
+                                homeViewModel.topNewsList?.set(0,
+                                    it1
+                                )
+                            }
 
-                        binding.topNewsHeadline.text = it.first?.get(5)?.title
-                        binding.topNewsContent.text = it.first?.get(5)?.content
-                        binding.topNewsSource.text = utility.splitSourceString(
-                            it.first?.get(5)?.source.toString())
-                        binding.imageTopNews.load(it.first?.get(5)?.urlToImage) {
-                            crossfade(true)
+                            it.first?.get(5)?.content?.let { it1 ->
+                                homeViewModel.topNewsList?.set(1,
+                                    it1
+                                )
+                            }
+
+                            it.first?.get(5)?.source?.let { it1 ->
+                                val resultedSource = utility.splitSourceString(
+                                    it1.toString())
+                                homeViewModel.topNewsList?.set(2,
+                                    resultedSource
+                                )
+                            }
+
+                            it.first?.get(5)?.urlToImage?.let { it1 ->
+                                homeViewModel.topNewsList?.set(3,
+                                    it1
+                                )
+                            }
+
+                            setTopNewsUi()
                         }
                     }
-                }
-            }, {
+                }, {
                     NDLogs.error(TAG," ERROR ", error = Throwable(message = "${it.toString()}"))
-            })
+                })
         )
+    }
 
+    fun setUpNewsListAdapter() {
+        newsListAdapter = NewsListAdapter()
+        binding.newsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = newsListAdapter
+        }
+        setUpView()
+    }
+
+    fun setUpView() {
+
+        mDisposable.add(homeViewModel.newsList().subscribe {
+            newsListAdapter.submitData(lifecycle,it)
+        })
+    }
+
+    fun setTopNewsUi() {
+        homeViewModel.topNewsList?.let {
+
+            NDLogs.debug(TAG," setTopNewsUi ")
+            it.forEach {
+                NDLogs.info(TAG ," ${it} ")
+            }
+
+            binding.topNewsHeadline.text = it[0].toString()
+            binding.topNewsContent.text = it[1].toString()
+            binding.topNewsSource.text = it[2].toString()
+            binding.imageTopNews.load(it[3]) {
+                crossfade(true)
+            }
+        }
     }
 
     override fun onDestroyView() {
