@@ -10,7 +10,7 @@ import java.util.*
 
 object Inject {
 
-    fun provideLocale(): Locale = Locale.CANADA
+    fun provideLocale(): String = "in"
 
     fun provideHomeViewModel(context: Context):
             ViewModelProvider.Factory {
@@ -19,7 +19,7 @@ object Inject {
             NewsDataSource(
                 apiEndPoints = APIEndPoints.create(),
                 apiKey = com.robosoft.newsapp.extras.Configuration.NEWS_API_KEY,
-                country = "in"
+                country = provideLocale()
             )
 
         val repository =
