@@ -8,6 +8,9 @@ Implemented the following things:
 3. UI Flow among all screens.
 4. Added Pagination to load popular news screen.
 5. Added Log Mechanism. (adb logcat -s nd)
+6. Added WebView to display the Top headlines
+   (Click on Top News Title/Content/Image to display it in webview)
+   
 
 Following libraries have been used 
 1. MVVM
@@ -18,3 +21,4 @@ Following libraries have been used
 6. Koin 
 7. RxJava
 8. Coroutines
+9. WebView Ui

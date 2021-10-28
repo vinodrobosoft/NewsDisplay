@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -66,6 +67,7 @@ class HomeFragment : Fragment() {
         setObservables()
         setUpNewsListAdapter()
         setTopNewsUi()
+        setOnClickListener()
 
         return binding.root
     }
@@ -94,6 +96,9 @@ class HomeFragment : Fragment() {
             it.findViewById<AppCompatTextView>(R.id.bookmarked_title)?.let {
                 it.isGone = true
             }
+            it.findViewById<AppCompatTextView>(R.id.web_view_url)?.let {
+                it.isGone = true
+            }
         }
     }
 
@@ -109,7 +114,11 @@ class HomeFragment : Fragment() {
 
                             NDLogs.debug(TAG ," SUCCESS ")
 
-                            homeViewModel.topNewsList = arrayOf("title","content","source","image")
+                            homeViewModel.topNewsList = arrayOf("title",
+                                "content",
+                                "source",
+                                "image",
+                                "url")
                             it.first?.get(5)?.title?.let { it1 ->
                                 homeViewModel.topNewsList?.set(0,
                                     it1
@@ -132,6 +141,12 @@ class HomeFragment : Fragment() {
 
                             it.first?.get(5)?.urlToImage?.let { it1 ->
                                 homeViewModel.topNewsList?.set(3,
+                                    it1
+                                )
+                            }
+
+                            it.first?.get(5)?.url?.let { it1 ->
+                                homeViewModel.topNewsList?.set(4,
                                     it1
                                 )
                             }
@@ -178,6 +193,30 @@ class HomeFragment : Fragment() {
         }
     }
 
+    fun setOnClickListener() {
+
+        binding.topNewsHeadline.setOnClickListener {
+            NDLogs.info(TAG," topNewsHeadlineClickListener ")
+            sendBundleValues()
+        }
+        binding.topNewsContent.setOnClickListener {
+            NDLogs.info(TAG," topNewsContentClickListener ")
+
+            sendBundleValues()
+        }
+
+        binding.imageTopNews.setOnClickListener {
+            NDLogs.info(TAG," imageTopNewsClickListener ")
+
+            sendBundleValues()
+        }
+    }
+
+    fun sendBundleValues() {
+        val bundle =
+            bundleOf("url" to (homeViewModel.topNewsList?.get(4) ?: ""))
+        findNavController().navigate(R.id.action_HomeFragment_to_HomeDetailsFragment,bundle)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         NDLogs.debug(TAG," onDestroyView ")
