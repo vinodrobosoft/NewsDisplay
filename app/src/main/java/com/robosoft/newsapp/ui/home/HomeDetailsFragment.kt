@@ -27,11 +27,9 @@ class HomeDetailsFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentHomedetailsBinding.inflate(inflater, container, false)
         setUiValues()
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +56,6 @@ class HomeDetailsFragment : Fragment() {
                 it.isGone = true
             }
         }
-
     }
 
     override fun onDestroyView() {

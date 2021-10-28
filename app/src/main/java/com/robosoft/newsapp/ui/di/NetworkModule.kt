@@ -47,7 +47,6 @@ fun <S> createService(ctx: Context, serviceClass: Class<S>): S {
     return retrofit!!.create(serviceClass)
 }
 
-
 fun getApiService(context: Context): APIEndPoints {
     val application = context.applicationContext as NewsApp
     if (application.apiEndPoints == null) {

@@ -12,14 +12,10 @@ import io.reactivex.Flowable
 
 class HomeViewModel(private val repository: GetNewsRxRepository) : ViewModel() {
 
-    /*val newsList = Pager(PagingConfig(pageSize = 6)) {
-        NewsDataSource(apiEndPoints)
-    }.flowable.cachedIn(viewModelScope)*/
-
     fun newsList() : Flowable<PagingData<NewsResponse.NewsTop>> {
         return repository.getNews()
             .map { pagingData -> pagingData.filter {
-                it.title != null
+                it.author != null
             } }
             .cachedIn(viewModelScope)
     }

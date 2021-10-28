@@ -44,14 +44,6 @@ interface APIEndPoints {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(APIEndPoints::class.java)
-           /* Retrofit.Builder()
-                .baseUrl(getBaseUrl())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create()*/
-
-
         }
     }
 }

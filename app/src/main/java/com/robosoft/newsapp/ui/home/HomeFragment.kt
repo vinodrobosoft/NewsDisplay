@@ -35,9 +35,6 @@ class HomeFragment : Fragment() {
 
     private val mDisposable = CompositeDisposable()
 
-    /*val homeViewModel: HomeViewModel by viewModel {
-        get(named("HOME_VIEW_MODEL")) }*/
-
     //val homeViewModel by viewModel<HomeViewModel>()
     private lateinit var homeViewModel: HomeViewModel
 

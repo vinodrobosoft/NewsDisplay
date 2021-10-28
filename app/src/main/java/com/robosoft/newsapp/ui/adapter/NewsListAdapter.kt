@@ -10,25 +10,24 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.data.dataresponse.NewsResponse
+import com.robosoft.newsapp.ui.viewholder.NewsViewHolder
 
 class NewsListAdapter :
-        PagingDataAdapter<NewsResponse.NewsTop, NewsListAdapter.NewsViewHolder>(NewsDifferentiator) {
+        PagingDataAdapter<NewsResponse.NewsTop,
+                NewsViewHolder>(NewsDifferentiator) {
 
-    inner class NewsViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
+            NewsViewHolder {
+        return NewsViewHolder.create(
+            parent
+        )
+    }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         Log.d("vs","onBindViewHolder Title ${getItem(position)?.title}")
-        holder.itemView.findViewById<AppCompatTextView>(R.id.popular_news_title)
-                .setText(getItem(position)?.title)
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        val newsItem = LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_items,parent,false)
-
-        val viewHolder = NewsViewHolder(newsItem)
-        return viewHolder
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
     object NewsDifferentiator : DiffUtil.ItemCallback<NewsResponse.NewsTop>() {
@@ -39,8 +38,5 @@ class NewsListAdapter :
         override fun areContentsTheSame(oldItem: NewsResponse.NewsTop, newItem: NewsResponse.NewsTop): Boolean {
             return oldItem == newItem
         }
-
     }
-
-
 }
