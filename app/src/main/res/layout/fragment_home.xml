@@ -77,7 +77,7 @@
         app:layout_constraintTop_toBottomOf="@+id/half_guideline">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/popular_news_title"
+            android:id="@+id/popular_news_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/popular_news_title"
@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/eight_dp"
-            app:layout_constraintTop_toBottomOf="@+id/popular_news_title" />
+            app:layout_constraintTop_toBottomOf="@+id/popular_news_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline

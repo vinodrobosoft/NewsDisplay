@@ -19,7 +19,7 @@ class HomeViewModel(private val repository: GetNewsRxRepository) : ViewModel() {
     fun newsList() : Flowable<PagingData<NewsResponse.NewsTop>> {
         return repository.getNews()
             .map { pagingData -> pagingData.filter {
-                it.articles != null
+                it.title != null
             } }
             .cachedIn(viewModelScope)
     }
