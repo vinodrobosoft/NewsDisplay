@@ -24,7 +24,6 @@ class NewsListAdapter :
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        Log.d("vs","onBindViewHolder Title ${getItem(position)?.title}")
         getItem(position)?.let {
             holder.bind(it)
         }

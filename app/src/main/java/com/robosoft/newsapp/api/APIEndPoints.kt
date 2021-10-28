@@ -4,7 +4,9 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.robosoft.newsapp.data.dataresponse.NewsResponse
 import com.robosoft.newsapp.extras.Configuration
 import com.robosoft.newsapp.ui.di.getBaseUrl
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -45,5 +47,10 @@ interface APIEndPoints {
                 .build()
                 .create(APIEndPoints::class.java)
         }
+
+        val responseNewsSubject =
+            PublishSubject.create<Pair<List<NewsResponse.NewsTop>?,Throwable>>()
+        val responseNewsObservable: Observable<Pair<List<NewsResponse.NewsTop>?, Throwable>>
+            get() =responseNewsSubject.share()
     }
 }

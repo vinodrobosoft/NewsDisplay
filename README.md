@@ -7,6 +7,7 @@ Implemented the following things:
 2. Display the Top Headlines.
 3. UI Flow among all screens.
 4. Added Pagination to load popular news screen.
+5. Added Log Mechanism. (adb logcat -s nd)
 
 Following libraries have been used 
 1. MVVM
