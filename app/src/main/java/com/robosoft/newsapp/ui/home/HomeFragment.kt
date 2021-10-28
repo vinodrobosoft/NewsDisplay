@@ -16,7 +16,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.api.load
 import com.robosoft.newsapp.R
+import com.robosoft.newsapp.Util.utility
 import com.robosoft.newsapp.api.APIEndPoints
 import com.robosoft.newsapp.databinding.FragmentHomeBinding
 import com.robosoft.newsapp.extras.StatusTypes
@@ -62,22 +64,23 @@ class HomeFragment : Fragment() {
             HomeViewModel::class.java)
         setUiValues()
         setObservables()
+        setUpNewsListAdapter()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpNewsListAdapter()
-        setUpView()
+
     }
 
     fun setUpNewsListAdapter() {
         newsListAdapter = NewsListAdapter()
         binding.newsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            setHasFixedSize(true)
             adapter = newsListAdapter
         }
+        setUpView()
     }
 
     fun setUpView() {
@@ -107,7 +110,6 @@ class HomeFragment : Fragment() {
                 it.isGone = true
             }
         }
-
     }
 
     fun setObservables() {
@@ -125,6 +127,12 @@ class HomeFragment : Fragment() {
                         NDLogs.debug(TAG ," Display Title ${it.first?.get(5)?.title} ")
 
                         binding.topNewsHeadline.text = it.first?.get(5)?.title
+                        binding.topNewsContent.text = it.first?.get(5)?.content
+                        binding.topNewsSource.text = utility.splitSourceString(
+                            it.first?.get(5)?.source.toString())
+                        binding.imageTopNews.load(it.first?.get(5)?.urlToImage) {
+                            crossfade(true)
+                        }
                     }
                 }
             }, {

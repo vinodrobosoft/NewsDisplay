@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.robosoft.newsapp.R
+import com.robosoft.newsapp.Util.utility
 import com.robosoft.newsapp.data.dataresponse.NewsResponse
 import com.robosoft.newsapp.databinding.ListItemsBinding
 
@@ -15,9 +16,9 @@ class NewsViewHolder(private val listItemsBinding: ListItemsBinding) :
                 with(news) {
                     listItemsBinding.popularNewsTitle.text = title
                     listItemsBinding.popularNewsHeadline.text = content
-                    val source1 = source.toString()
-                    val source2 = source1.split("=").toTypedArray()
-                    listItemsBinding.newsSource.text = source2.get(2).removeSuffix("}")
+
+                    listItemsBinding.newsSource.text =
+                        utility.splitSourceString(source.toString())
                     listItemsBinding.popularNewsImage.load(urlToImage) {
                         crossfade(true)
                     }
