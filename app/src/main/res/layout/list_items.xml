@@ -46,7 +46,7 @@
             android:maxLines="1"
             android:text="@string/top_news_headline"
             android:textColor="@color/black"
-            android:textSize="@dimen/eighteen_dp"
+            android:textSize="@dimen/eighteen_sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@+id/card_view"
             app:layout_constraintTop_toBottomOf="@+id/guideline" />
@@ -62,7 +62,7 @@
             android:maxLines="2"
             android:text="@string/top_news_content"
             android:textColor="@color/black"
-            android:textSize="@dimen/eighteen_dp"
+            android:textSize="@dimen/eighteen_sp"
             app:layout_constraintLeft_toRightOf="@+id/card_view"
             app:layout_constraintTop_toBottomOf="@+id/popular_news_title" />
 

@@ -19,7 +19,7 @@ object Inject {
             NewsDataSource(
                 apiEndPoints = APIEndPoints.create(),
                 apiKey = com.robosoft.newsapp.extras.Configuration.NEWS_API_KEY,
-                country = "us"
+                country = "in"
             )
 
         val repository =
