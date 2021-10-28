@@ -74,6 +74,7 @@
             android:layout_marginTop="@dimen/eight_dp"
             android:layout_marginEnd="@dimen/sixteen_dp"
             android:src="@drawable/ic_baseline_source_16"
+            android:textStyle="bold|italic"
             app:layout_constraintLeft_toRightOf="@+id/card_view"
             app:layout_constraintTop_toBottomOf="@+id/popular_news_headline" />
 
