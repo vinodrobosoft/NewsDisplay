@@ -34,6 +34,7 @@ class NewsApp : Application() {
     }
 
     fun initialiseRealm() {
+
         NDLogs.debug(TAG," initialiseRealm ")
         Realm.init(this)
 
