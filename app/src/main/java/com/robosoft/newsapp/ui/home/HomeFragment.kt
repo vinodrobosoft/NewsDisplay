@@ -64,11 +64,10 @@ class HomeFragment : Fragment() {
         homeViewModel = ViewModelProvider(this, Inject.provideHomeViewModel(view.context)).get(
             HomeViewModel::class.java)
         setUiValues()
-        setObservables()
         setUpNewsListAdapter()
         setTopNewsUi()
         setOnClickListener()
-
+        setObservables()
         return binding.root
     }
 
@@ -103,6 +102,7 @@ class HomeFragment : Fragment() {
     }
 
     fun setObservables() {
+
         mDisposable.add(
             APIEndPoints.responseNewsObservable
                 .subscribeOn(Schedulers.io())
@@ -158,6 +158,17 @@ class HomeFragment : Fragment() {
                     NDLogs.error(TAG," ERROR ", error = Throwable(message = "${it.toString()}"))
                 })
         )
+
+        mDisposable.add(
+            newsListAdapter.itemClickObserver
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe( {
+                    NDLogs.debug(TAG,"Item Clicked inside NewsList ")
+                }, {
+                    NDLogs.debug(TAG,"Error caused on Item Clicked inside NewsList ${it}")
+                } )
+        )
     }
 
     fun setUpNewsListAdapter() {
@@ -166,13 +177,19 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = newsListAdapter
         }
+
         setUpView()
     }
 
     fun setUpView() {
 
         mDisposable.add(homeViewModel.newsList().subscribe {
+
             newsListAdapter.submitData(lifecycle,it)
+            //homeViewModel.pagingData = it
+            NDLogs.debug(TAG," Submit Data ${newsListAdapter.snapshot().forEach {
+                NDLogs.debug(TAG," For Each ${it.toString()}")
+            }}")
         })
     }
 

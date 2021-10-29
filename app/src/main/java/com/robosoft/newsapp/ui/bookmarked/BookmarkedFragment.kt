@@ -11,16 +11,29 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.databinding.FragmentBookmarkedBinding
+import com.robosoft.newsapp.model.NewsArticleDetails
+import com.robosoft.newsapp.ui.adapter.NewsBookmarkedAdapter
+import com.robosoft.newsapp.ui.adapter.NewsListAdapter
+import io.realm.OrderedRealmCollection
+import io.realm.Realm
 
 /**
  * A Bookmarked [Fragment] subclass as to display the bookmarked news.
  */
 class BookmarkedFragment : Fragment() {
 
+    val TAG = "BookmarkedFragment"
+
+    val realm: Realm by lazy {
+        Realm.getDefaultInstance()
+    }
     private var _binding: FragmentBookmarkedBinding? = null
 
+    lateinit var newsBookmarkedAdapter: NewsBookmarkedAdapter
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -29,9 +42,9 @@ class BookmarkedFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentBookmarkedBinding.inflate(inflater, container, false)
         setUiValues()
+        initNewsListAdapter()
         return binding.root
 
     }
@@ -53,9 +66,6 @@ class BookmarkedFragment : Fragment() {
             it.findViewById<AppCompatImageView>(R.id.search_toolbar)?.let {
                 it.isVisible = true
                 it.isEnabled = false
-                /*it.setOnClickListener {
-                    findNavController().navigate(R.id.action_BookmarkedFragment_to_SearchNewsFragment)
-                }*/
             }
             it.findViewById<AppCompatEditText>(R.id.search_edit_text)?.let {
                 it.isGone = true
@@ -65,6 +75,26 @@ class BookmarkedFragment : Fragment() {
             }
         }
 
+    }
+
+    fun initNewsListAdapter() {
+
+        val newsList = realm.where(NewsArticleDetails::class.java).findAllAsync()
+
+        newsBookmarkedAdapter = NewsBookmarkedAdapter(requireContext(),
+            newsList as OrderedRealmCollection<NewsArticleDetails>)
+
+        binding.newsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = newsBookmarkedAdapter
+        }
+        with(binding.newsRecyclerView.itemAnimator) {
+            if(this is SimpleItemAnimator) {
+                this.supportsChangeAnimations = true
+            }
+        }
+
+        //setUpView()
     }
 
     override fun onDestroyView() {

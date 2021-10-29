@@ -21,4 +21,5 @@ class HomeViewModel(private val repository: GetNewsRxRepository) : ViewModel() {
     }
 
     var topNewsList : Array<String>? = null
+    var pagingData : PagingData<NewsResponse.NewsTop>? = null
 }
