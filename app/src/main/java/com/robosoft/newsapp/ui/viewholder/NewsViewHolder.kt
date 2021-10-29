@@ -9,6 +9,7 @@ import com.robosoft.newsapp.R
 import com.robosoft.newsapp.Util.utility
 import com.robosoft.newsapp.data.dataresponse.NewsResponse
 import com.robosoft.newsapp.databinding.ListItemsBinding
+import com.robosoft.newsapp.logs.NDLogs
 import io.reactivex.subjects.PublishSubject
 
 class NewsViewHolder(private val listItemsBinding: ListItemsBinding) :
@@ -38,6 +39,10 @@ class NewsViewHolder(private val listItemsBinding: ListItemsBinding) :
                         .inflate(R.layout.list_items,  viewGroup,false)
 
                     val binding = ListItemsBinding.bind(view)
+                    binding.newsBookmarked.setOnClickListener {
+                        NDLogs.debug("NewsViewHolder",
+                            " News Bookmarked Clicked ")
+                    }
 
                     /*RxView.clicks(view)
                         .takeUntil(RxView.detaches(viewGroup))

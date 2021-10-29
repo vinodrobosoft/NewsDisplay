@@ -19,6 +19,7 @@ class NewsListAdapter :
     val itemClickObserver: Observable<NewsResponse.NewsTop>
         get() = itemClick.share()
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             NewsViewHolder {
 
@@ -37,12 +38,11 @@ class NewsListAdapter :
     }
 
     override fun getItemCount(): Int {
-        NDLogs.debug(TAG," getItemCount ${super.getItemCount()} ")
+        //NDLogs.debug(TAG," getItemCount ${super.getItemCount()} ")
         return super.getItemCount()
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-
 
         NDLogs.debug(TAG," onAttachedToRecyclerView ")
         super.onAttachedToRecyclerView(recyclerView)
@@ -50,12 +50,10 @@ class NewsListAdapter :
 
     override fun getItemViewType(position: Int): Int {
 
-        NDLogs.debug(TAG," getItemViewType " +
-                "${super.getItemViewType(position)} ")
+        /*NDLogs.debug(TAG," getItemViewType " +
+                "${super.getItemViewType(position)} ")*/
         return super.getItemViewType(position)
     }
-
-
 
     object NewsDifferentiator : DiffUtil.ItemCallback<NewsResponse.NewsTop>() {
         override fun areItemsTheSame(oldItem: NewsResponse.NewsTop, newItem: NewsResponse.NewsTop): Boolean {

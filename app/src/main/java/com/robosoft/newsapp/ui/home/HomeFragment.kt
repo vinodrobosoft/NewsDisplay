@@ -109,6 +109,8 @@ class HomeFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( {
                     var success = it.second.message
+                    val listSize = it.first?.size
+                    val randomNumber : Int = (0 until listSize!!.div(3)).random()
                     when(success) {
                         StatusTypes.SUCCESS.getMessage() -> {
 
@@ -119,19 +121,19 @@ class HomeFragment : Fragment() {
                                 "source",
                                 "image",
                                 "url")
-                            it.first?.get(5)?.title?.let { it1 ->
+                            it.first?.get(randomNumber)?.title?.let { it1 ->
                                 homeViewModel.topNewsList?.set(0,
                                     it1
                                 )
                             }
 
-                            it.first?.get(5)?.content?.let { it1 ->
+                            it.first?.get(randomNumber)?.content?.let { it1 ->
                                 homeViewModel.topNewsList?.set(1,
                                     it1
                                 )
                             }
 
-                            it.first?.get(5)?.source?.let { it1 ->
+                            it.first?.get(randomNumber)?.source?.let { it1 ->
                                 val resultedSource = utility.splitSourceString(
                                     it1.toString())
                                 homeViewModel.topNewsList?.set(2,
@@ -139,13 +141,13 @@ class HomeFragment : Fragment() {
                                 )
                             }
 
-                            it.first?.get(5)?.urlToImage?.let { it1 ->
+                            it.first?.get(randomNumber)?.urlToImage?.let { it1 ->
                                 homeViewModel.topNewsList?.set(3,
                                     it1
                                 )
                             }
 
-                            it.first?.get(5)?.url?.let { it1 ->
+                            it.first?.get(randomNumber)?.url?.let { it1 ->
                                 homeViewModel.topNewsList?.set(4,
                                     it1
                                 )
@@ -176,6 +178,7 @@ class HomeFragment : Fragment() {
         binding.newsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsListAdapter
+            NDLogs.debug(TAG," NewsListAdapter contents ${adapter}")
         }
 
         setUpView()
@@ -187,9 +190,7 @@ class HomeFragment : Fragment() {
 
             newsListAdapter.submitData(lifecycle,it)
             //homeViewModel.pagingData = it
-            NDLogs.debug(TAG," Submit Data ${newsListAdapter.snapshot().forEach {
-                NDLogs.debug(TAG," For Each ${it.toString()}")
-            }}")
+            NDLogs.debug(TAG," Submit Data ")
         })
     }
 
