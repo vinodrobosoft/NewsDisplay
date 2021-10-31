@@ -2,6 +2,7 @@ package com.robosoft.newsapp.ui.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.jakewharton.rxbinding2.view.RxView
@@ -10,6 +11,7 @@ import com.robosoft.newsapp.Util.utility
 import com.robosoft.newsapp.data.dataresponse.NewsResponse
 import com.robosoft.newsapp.databinding.ListItemsBinding
 import com.robosoft.newsapp.logs.NDLogs
+import com.robosoft.newsapp.model.NewsArticleDetails
 import io.reactivex.subjects.PublishSubject
 
 class NewsViewHolder(private val listItemsBinding: ListItemsBinding) :
@@ -28,11 +30,23 @@ class NewsViewHolder(private val listItemsBinding: ListItemsBinding) :
                 }
             }
 
+            fun bindDb(newsArticleDetails: NewsArticleDetails) {
+                with(newsArticleDetails) {
+                    listItemsBinding.popularNewsTitle.text = newsArticleDetails.mTitle
+                    listItemsBinding.popularNewsHeadline.text   =
+                        newsArticleDetails.mContent
+
+                    listItemsBinding.newsSource.text =
+                        newsArticleDetails.mSource
+                    listItemsBinding.popularNewsImage.load(newsArticleDetails.image) {
+                        crossfade(true)
+                    }
+                }
+            }
+
             companion object {
                 fun create(
-                    viewGroup: ViewGroup,
-                    itemClick: PublishSubject<NewsResponse.NewsTop>,
-                    viewType: Int
+                    viewGroup: ViewGroup
                 ) : NewsViewHolder {
 
                     val view = LayoutInflater.from(viewGroup.context)
@@ -40,17 +54,19 @@ class NewsViewHolder(private val listItemsBinding: ListItemsBinding) :
 
                     val binding = ListItemsBinding.bind(view)
                     binding.newsBookmarked.setOnClickListener {
+
                         NDLogs.debug("NewsViewHolder",
-                            " News Bookmarked Clicked ")
+                            " News Bookmarked Clicked ${binding.popularNewsHeadline.text}")
                     }
 
+                    val newsViewHolder = NewsViewHolder(binding)
+
                     /*RxView.clicks(view)
-                        .takeUntil(RxView.detaches(viewGroup))
-                        .map { viewType as NewsResponse.NewsTop }
-                        .subscribe(itemClick)*/
-                    return NewsViewHolder(
-                        binding
-                    )
+                        .takeUntil(RxView.detaches(newsViewHolder.itemView))
+                        .subscribe{
+
+                        }*/
+                    return newsViewHolder
                 }
             }
         }

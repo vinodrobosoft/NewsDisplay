@@ -10,7 +10,8 @@ Implemented the following things:
 5. Added Log Mechanism. (adb logcat -s nd)
 6. Added WebView to display the Top headlines
    (Click on Top News Title/Content/Image to display it in webview)
-   
+7. Added Bookmarked functionality to bookmark the news articles 
+   and display it on clicking the bookmark in Toolbar(at top most right)
 
 Following libraries have been used 
 1. MVVM
@@ -22,3 +23,4 @@ Following libraries have been used
 7. RxJava
 8. Coroutines
 9. WebView Ui
+10. REALM DataBase

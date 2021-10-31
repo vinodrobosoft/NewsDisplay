@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.databinding.FragmentBookmarkedBinding
+import com.robosoft.newsapp.model.Extras
 import com.robosoft.newsapp.model.NewsArticleDetails
 import com.robosoft.newsapp.ui.adapter.NewsBookmarkedAdapter
 import com.robosoft.newsapp.ui.adapter.NewsListAdapter
@@ -79,7 +80,11 @@ class BookmarkedFragment : Fragment() {
 
     fun initNewsListAdapter() {
 
-        val newsList = realm.where(NewsArticleDetails::class.java).findAllAsync()
+        val number: Int? = 1
+
+        val newsList = realm.where(NewsArticleDetails::class.java)
+            .equalTo(Extras.IS_BOOKMARKED,number)
+            .findAllAsync()
 
         newsBookmarkedAdapter = NewsBookmarkedAdapter(requireContext(),
             newsList as OrderedRealmCollection<NewsArticleDetails>)

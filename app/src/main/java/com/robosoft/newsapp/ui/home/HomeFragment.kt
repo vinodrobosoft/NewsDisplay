@@ -152,7 +152,6 @@ class HomeFragment : Fragment() {
                                     it1
                                 )
                             }
-
                             setTopNewsUi()
                         }
                     }
@@ -167,6 +166,7 @@ class HomeFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe( {
                     NDLogs.debug(TAG,"Item Clicked inside NewsList ")
+                    //Toast.makeText(context,"Article has been bookmarked",Toast.LENGTH_SHORT).show()
                 }, {
                     NDLogs.debug(TAG,"Error caused on Item Clicked inside NewsList ${it}")
                 } )
