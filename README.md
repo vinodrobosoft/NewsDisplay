@@ -12,6 +12,7 @@ Implemented the following things:
    (Click on Top News Title/Content/Image to display it in webview)
 7. Added Bookmarked functionality to bookmark the news articles 
    and display it on clicking the bookmark in Toolbar(at top most right)
+8. Delete/Remove Bookmarked News Articles 
 
 Following libraries have been used 
 1. MVVM

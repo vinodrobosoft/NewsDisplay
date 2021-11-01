@@ -1,7 +1,6 @@
 package com.robosoft.newsapp.ui.adapter
 
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.data.dataresponse.NewsResponse
 import com.robosoft.newsapp.logs.NDLogs
-import com.robosoft.newsapp.model.Extras
+import com.robosoft.newsapp.extras.Extras
 import com.robosoft.newsapp.model.NewsArticleDetails
 import com.robosoft.newsapp.model.helper.PersistenceHelper
 import com.robosoft.newsapp.ui.viewholder.NewsViewHolder

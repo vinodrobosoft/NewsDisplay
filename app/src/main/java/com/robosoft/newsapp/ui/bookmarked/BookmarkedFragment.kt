@@ -10,15 +10,13 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.databinding.FragmentBookmarkedBinding
-import com.robosoft.newsapp.model.Extras
+import com.robosoft.newsapp.extras.Extras
 import com.robosoft.newsapp.model.NewsArticleDetails
 import com.robosoft.newsapp.ui.adapter.NewsBookmarkedAdapter
-import com.robosoft.newsapp.ui.adapter.NewsListAdapter
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
 
