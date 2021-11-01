@@ -17,12 +17,13 @@ Implemented the following things:
 
 Following libraries have been used 
 1. MVVM
-2. Coil
-3. Retrofit API calls
-4. Pagination
-5. Material Design
-6. Koin 
-7. RxJava
-8. Coroutines
-9. WebView Ui
-10. REALM DataBase
+2. Navigation
+3. Coil
+4. Retrofit API calls
+5. Pagination
+6. Material Design
+7. Koin 
+8. RxJava
+9. Coroutines
+10. WebView Ui
+11. REALM DataBase
