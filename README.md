@@ -13,6 +13,7 @@ Implemented the following things:
 7. Added Bookmarked functionality to bookmark the news articles 
    and display it on clicking the bookmark in Toolbar(at top most right)
 8. Delete/Remove Bookmarked News Articles 
+9. Added Search Screen
 
 Following libraries have been used 
 1. MVVM
