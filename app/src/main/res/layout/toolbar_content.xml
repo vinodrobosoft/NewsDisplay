@@ -45,6 +45,7 @@
         android:textColor="@color/black"
         android:textSize="32dp"
         android:textStyle="bold"
+        android:visibility="gone"
         tools:ignore="MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -62,7 +63,8 @@
         android:layout_height="match_parent"
         android:layout_margin="@dimen/global_news_search_margin"
         android:background="@drawable/ic_baseline_search_48"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

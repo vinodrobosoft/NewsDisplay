@@ -16,5 +16,7 @@
     <string name="news_to_search">News to Search</string>
     <string name="top_news_source">reuters</string>
 
+    <string name="search_hint">Enter</string>
+
 
 </resources>
