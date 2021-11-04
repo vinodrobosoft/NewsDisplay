@@ -1,68 +1,61 @@
-package com.robosoft.newsapp
+package com.robosoft.newsapp.ui.home
 
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.isGone
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.robosoft.newsapp.Util.utility
-import com.robosoft.newsapp.databinding.ActivityMainBinding
+import com.robosoft.newsapp.MainActivity
+import com.robosoft.newsapp.R
 import com.robosoft.newsapp.logs.NDLogs
-import com.robosoft.newsapp.ui.search.SearchResultsActivity
+import com.robosoft.newsapp.repository.MySuggestionProvider
 
-open class MainActivity : AppCompatActivity() {
+open class HomeActivity : MainActivity() {
 
-    open val TAG = "MainActivity"
-    lateinit var appBarConfiguration: AppBarConfiguration
-    lateinit var binding: ActivityMainBinding
-
-    lateinit var toolBar: androidx.appcompat.widget.Toolbar
-
-    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        NDLogs.debug(TAG,"onCreate")
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-        toolBar = binding.toolbar
-        initUi()
+        NDLogs.debug(TAG," Action ${intent?.action} ")
+        val intent = getIntent()
+
+
+        handleIntent(intent)
+
     }
 
-    open fun initUi() {
+    fun initialise() {
 
         navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         val view: View = layoutInflater.inflate(R.layout.toolbar_content, toolBar)
 
-        //setUpClickListeners()
-        //hideUI()
+        setUpClickListeners()
+        hideUI()
     }
 
-    /*fun setUpClickListeners() {
+    fun setUpClickListeners() {
         toolBar.findViewById<AppCompatImageView>(R.id.bookmarked_toolbar).setOnClickListener {
             navController.navigate(R.id.action_HomeFragment_to_BookmarkedFragment)
         }
 
         toolBar.findViewById<AppCompatImageView>(R.id.search_toolbar).setOnClickListener {
-            utility.launchActivity(context = applicationContext,
-                SearchResultsActivity::class.java, flag = Intent.FLAG_ACTIVITY_NEW_TASK)
-            //navController.navigate(R.id.action_HomeFragment_to_SearchNewsFragment)
+            /*utility.launchActivity(context = applicationContext,
+                SearchResultsActivity::class.java, flag = Intent.FLAG_ACTIVITY_NEW_TASK)*/
+            navController.navigate(R.id.action_HomeFragment_to_SearchNewsFragment)
         }
     }
 
@@ -74,7 +67,7 @@ open class MainActivity : AppCompatActivity() {
         toolBar.findViewById<AppCompatTextView>(R.id.bookmarked_title)?.let {
             it.isGone = true
         }
-    }*/
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
@@ -82,6 +75,30 @@ open class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+        NDLogs.debug(TAG," onNewIntent Action ${intent?.action} ")
+        if (intent != null) {
+            handleIntent(intent)
+        }
+    }
+
+    fun handleIntent(intent: Intent){
+        if(Intent.ACTION_SEARCH == intent.action) {
+            //navController.navigate(R.id.action_HomeFragment_to_SearchNewsFragment)
+            intent.getStringExtra(SearchManager.QUERY)?.also {
+                    query ->
+                NDLogs.debug(TAG," Query $query ")
+                SearchRecentSuggestions(applicationContext,
+                    MySuggestionProvider.AUTHORITY,
+                    MySuggestionProvider.MODE)
+                    .saveRecentQuery(query, null)
+            }
+        } else {
+            initialise()
+        }
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main,menu)
 
@@ -93,5 +110,13 @@ open class MainActivity : AppCompatActivity() {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.search) {
+            navController.navigate(R.id.action_HomeFragment_to_SearchNewsFragment)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

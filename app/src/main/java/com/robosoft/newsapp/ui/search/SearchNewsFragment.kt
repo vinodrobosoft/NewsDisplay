@@ -1,6 +1,9 @@
 package com.robosoft.newsapp.ui.search
 
+import android.app.SearchManager
+import android.content.Intent
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.robosoft.newsapp.R
 import com.robosoft.newsapp.databinding.FragmentSearchBinding
+import com.robosoft.newsapp.repository.MySuggestionProvider
 
 /**
  * A SearchNews [Fragment] subclass as to display the search screen and search the news.
